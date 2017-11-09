@@ -1,0 +1,38 @@
+WITH member_bookings AS (
+  SELECT CONCAT(m.first_name || ' ' || m.surname) AS name, b.facility_id
+  FROM members m Join bookings b ON (m.id = b.member_id))
+SELECT DISTINCT mb.name, f.name
+FROM member_bookings mb JOIN facilities f ON (mb.facility_id = f.id)
+WHERE
+f.name LIKE ('Tennis%')
+ORDER BY mb.name;
+
+
+
+WITH member_bookings AS (
+  SELECT CONCAT(m.first_name || ' ' || m.surname) AS name, b.facility_id
+  FROM members m Join bookings b ON (m.id = b.member_id))
+SELECT count(mb.name)
+FROM member_bookings mb JOIN facilities f ON (mb.facility_id = f.id)
+WHERE
+f.name LIKE ('Pool%') AND mb.name = ('Nancy Dare');
+
+
+WITH member_bookings AS (
+  SELECT CONCAT(m.first_name || ' ' || m.surname) AS name, b.facility_id
+  FROM members m Join bookings b ON (m.id = b.member_id))
+SELECT count(mb.name), f.name
+FROM member_bookings mb JOIN facilities f ON (mb.facility_id = f.id)
+WHERE
+mb.name = ('Nancy Dare')
+GROUP BY f.name
+ORDER BY count(mb.name) desc;
+
+WITH member_rec AS (
+  SELECT CONCAT(m.firstname || ', ' ||  m.first_name) AS name, m.recommended_by, m.id
+  FROM members m
+)
+SELECT DISTINCT a.name
+FROM member_rec a, member_rec b
+WHERE a.id = b.recommended_by
+ORDER BY a.name ASC;
